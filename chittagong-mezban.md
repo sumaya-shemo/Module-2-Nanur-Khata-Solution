@@ -14,3 +14,5 @@ A traditional beef dish from Chattogram.
 1. Mix the beef with the spices.
 2. Cook slowly until tender.
 3. Serve with rice.
+
+Tip: Slow cooking gives the meat a tender texture.
