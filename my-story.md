@@ -364,5 +364,137 @@ cat biryani.md
 git log --oneline --graph --all --decorate
 ```
 
+# Mitu Joins In — Git Collaboration Chat Log
 
+
+# Connect your local repository to GitHub
+### Task A:
+git remote add origin https://github.com/sumaya-shemo/Module-2-Nanur-Khata-Solution.git
+
+# Verify the remote URL
+git remote -v
+
+# Upload your commits and set the upstream branch
+git push -u origin master
+
+git push -u origin eid-special
+
+### Task B: Play Mitu
+
+```bash
+cd ~
+git clone https://github.com/sumaya-shemo/Module-2-Nanur-Khata-Solution.git
+
+cd Module-2-Nanur-Khata-Solution
+
+cat > chittagong-mezban.md <<'RECIPE'
+# Chittagong Mezban
+
+A traditional beef dish from Chattogram.
+
+## Ingredients
+- Beef
+- Onion
+- Garlic and ginger
+- Mezban spice mix
+- Salt
+- Oil
+
+## Instructions
+1. Mix the beef with the spices.
+2. Cook slowly until tender.
+3. Serve with rice.
+RECIPE
+
+git add chittagong-mezban.md
+git commit -m "Add Mitu's Chittagong mezban recipe"
+git push origin master
+
+```
+
+Cloning automatically configures `origin` and the tracked branch.
+
+### Task C: Fetch, inspect, and merge
+
+```bash
+cd ~/Module-2-Nanur-Khata-Solution
+
+git fetch origin
+```
+
+Fetch downloads Mitu's commits and updates `origin/master`, but main local `master` and working files stay unchanged.
+
+Inspect the downloaded changes:
+
+```bash
+git log --oneline HEAD..origin/master
+
+git diff HEAD origin/master
+
+```
+
+Integrate them:
+
+```bash
+git merge origin/master
+
+cat chittagong-mezban.md
+```
+
+
+
+### Task D: Mitu pushes again; my pull
+
+In Mitu's folder:
+
+```bash
+cd ~/Module-2-Nanur-Khata-Solution
+
+
+echo "" >> chittagong-mezban.md
+echo "Tip: Slow cooking gives the meat a tender texture." >> chittagong-mezban.md
+
+git add chittagong-mezban.md
+git commit -m "Add slow cooking tip to mezban recipe"
+git push origin master
+```
+
+Back in my folder:
+
+```bash
+cd ~/nanur-khata
+git pull --no-rebase origin master
+
+cat chittagong-mezban.md
+```
+
+`--no-rebase` explicitly selects merging when Git integrates the downloaded commits.
+
+## User: Follow-up question
+
+**Question:** What is the difference between fetch + merge and pull?
+
+## Explanation:
+
+**Fetch + merge lets you download and integrate changes in two separate steps. Pull performs both steps in one command.**
+
+| Command | Downloads remote commits? | Integrates into your current branch? |
+|---|---|---|
+| `git fetch origin` | Yes | No |
+| `git merge origin/main` | No | Yes |
+| `git pull --no-rebase origin main` | Yes | Yes, using merge |
+
+### Two steps: inspect before merging
+
+```bash
+git fetch origin
+git diff HEAD origin/master
+git merge origin/master
+```
+
+### One command: fetch and merge together
+
+```bash
+git pull --no-rebase origin master
+```
 
