@@ -1,0 +1,8 @@
+# Nanu's secret recipe
+secret-masala.txt
+
+# Ignore all temporary files
+*.tmp
+
+# Ignore draft folder
+draft/
