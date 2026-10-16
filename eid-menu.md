@@ -1,1 +1,1 @@
-Eid Menu: Traditional
+Eid Menu: Chicken Biryani
