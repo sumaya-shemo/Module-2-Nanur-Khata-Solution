@@ -116,7 +116,7 @@ cat bazar-list.txt
 | `git log --oneline` | View short commit history |
 | `git reset <file>` | Unstage a file without deleting it |
 | `cat <file>` | Display file contents |
-
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 # Nanu's Secret Spice Blend — Git `.gitignore` Practice
 
@@ -218,7 +218,7 @@ git commit -m "Add gitignore to protect secret recipes and temporary files"
 git status
 git log --oneline
 ```
-
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 # The Eid Special — Git Practice Chat Log
 
 Run these commands in Git Bash inside your `nanur-khata` repository.
@@ -363,7 +363,7 @@ git status
 cat biryani.md
 git log --oneline --graph --all --decorate
 ```
-
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 # Mitu Joins In — Git Collaboration Chat Log
 
 
@@ -497,4 +497,163 @@ git merge origin/master
 ```bash
 git pull --no-rebase origin master
 ```
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+# Half-Cooked Halua and Time Travel
+
+## Story
+
+Halfway through the halua recipe, Nanu calls:
+
+> "You forgot cardamom in the biryani!"
+
+You need to pause the unfinished halua, fix the biryani, organize the recipe book, inspect the history, and experiment with time travel safely.
+
+## Task A — Stash Halua, Fix Biryani, Restore Halua
+
+Create an unfinished halua recipe:
+
+```bash
+echo "# Halua Recipe" > halua.md
+echo "Sugar: 1 cup" >> halua.md
+echo "Ghee: 2 tablespoons" >> halua.md
+git status
+```
+
+Stash the work, including the new untracked file:
+
+```bash
+git stash push -u -m "Unfinished halua recipe"
+git stash list
+```
+
+Fix the already-tracked `biryani.md` and commit:
+
+```bash
+echo "Cardamom: 4 pieces" >> biryani.md
+git add biryani.md
+git commit -m "Fix biryani recipe by adding cardamom"
+```
+
+Restore unfinished work:
+
+```bash
+git stash pop
+git status
+cat halua.md
+```
+
+**Explanation:** `git stash` temporarily stores unfinished changes. `-u` includes untracked files. `git stash pop` reapplies the stash and removes it if the application succeeds. Resolve any conflicts if Git reports them.
+
+## Task B — Organize Recipes and Inspect Changes
+
+Create folders and move recipes:
+
+```bash
+mkdir -p recipes/main-dishes recipes/desserts
+git mv biryani.md recipes/main-dishes/
+git add halua.md
+git mv halua.md recipes/desserts/
+```
+
+If `old-recipe.md` exists and is tracked, delete it:
+
+```bash
+git rm old-recipe.md
+```
+
+Commit the organization changes:
+
+```bash
+git commit -m "Organize recipes and remove outdated recipe"
+git log --stat -M
+```
+
+**Explanation:** `git mv` moves or renames tracked files and stages the change. `git rm` deletes tracked files and stages the deletion. `git log --stat -M` shows changed-file statistics and enables rename detection. Skip the `git rm` command if the example file does not exist.
+
+## Task C — Inspect a Commit with `git show`
+
+```bash
+git log --oneline
+```
+
+Example output (SHAs will differ):
+
+```text
+* 8d881ff Fix biryani recipe by adding cardamom
+* 7b02fbb Add slow cooking tip to mezban recipe
+* 818fc8d Add Mitu's Chittagong mezban recipe
+```
+
+Show the actual SHA of the biryani fix:
+
+```bash
+git show 8d881ff
+```
+
+**Explanation:** `git show <SHA>` displays the commit metadata and patch, letting you see exactly what changed.
+
+## Task D — Time Travel on a Test Branch Only
+
+Create a separate branch:
+
+```bash
+git switch -c time-travel-test
+```
+
+Make two test commits:
+
+```bash
+echo "Experiment 1" > experiment.txt
+git add experiment.txt
+git commit -m "First experiment"
+
+echo "Experiment 2" >> experiment.txt
+git add experiment.txt
+git commit -m "Second experiment"
+
+git log --oneline -3
+```
+
+Reset the branch to its previous commit:
+
+```bash
+git reset --hard HEAD~1
+cat experiment.txt
+git log --oneline -3
+```
+
+Expected file contents:
+
+```text
+Experiment 1
+```
+
+**What was lost?** The `Experiment 2` line disappears from the tracked file, and the second commit is no longer referenced by this branch. The commit may be recoverable temporarily using `git reflog`, but recovery is not guaranteed forever.
+
+## Question — Why Are Rebase and `reset --hard` Dangerous on a Shared Branch?
+
+### `git rebase`
+
+Rebase can rewrite commits and create new SHAs. If you rebase commits already shared with Mitu, your local history may diverge from hers. Force-pushing the rewritten history can disrupt collaborators and potentially overwrite their work.
+
+```text
+A --- B --- C         Mitu's history
+ \
+  D --- B' --- C'     my rewritten history
+```
+
+### `git reset --hard`
+
+Reset moves the current branch pointer and updates tracked files in the index and working tree. It can discard uncommitted changes, and a force push after resetting a shared branch can remove commits from the remote branch's visible history.
+
+```text
+Before: A --- B --- C --- D   master
+After:  A --- B             master
+```
+
+__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
 
